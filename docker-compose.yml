@@ -40,14 +40,14 @@ services:
       - redis
     command: ["./scripts/start.sh"]
     healthcheck:
-      test: curl -f http://localhost:3000/health || exit 1
+      test: curl -f http://lago.site:3000/health || exit 1
       interval: 10s
       start_period: 30s
       timeout: 60s
       # uncomment for a potentially faster startup if you have docker --version > 25.0.0
       # start_interval: 2s
     environment:
-      - LAGO_API_URL=${LAGO_API_URL:-http://localhost:3000}
+      - LAGO_API_URL=${LAGO_API_URL:-http://lago.site:3000}
       - DATABASE_URL=postgresql://${POSTGRES_USER:-lago}:${POSTGRES_PASSWORD:-changeme}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-lago}
       - REDIS_URL=redis://${REDIS_HOST:-redis}:${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -55,7 +55,7 @@ services:
       - RAILS_ENV=production
       - RAILS_LOG_TO_STDOUT=${LAGO_RAILS_STDOUT:-true}
       - SENTRY_DSN=${SENTRY_DSN}
-      - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://localhost}
+      - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://lago.site}
       - RSA_PRIVATE_KEY=${LAGO_RSA_PRIVATE_KEY} # Should be base64 encoded
       - LAGO_RSA_PRIVATE_KEY=${LAGO_RSA_PRIVATE_KEY} # Should be base64 encoded
       - LAGO_SIDEKIQ_WEB=${LAGO_SIDEKIQ_WEB}
@@ -95,9 +95,9 @@ services:
       api:
         condition: service_healthy
     environment:
-      - API_URL=${LAGO_API_URL:-http://localhost:3000}
+      - API_URL=${LAGO_API_URL:-http://lago.site:3000}
       - APP_ENV=${APP_ENV:-production}
-      - CODEGEN_API=${LAGO_API_URL:-http://localhost:3000}
+      - CODEGEN_API=${LAGO_API_URL:-http://lago.site:3000}
       - LAGO_DISABLE_SIGNUP=${LAGO_DISABLE_SIGNUP:-false}
       - LAGO_OAUTH_PROXY_URL=https://proxy.getlago.com
       - SENTRY_DSN=${SENTRY_DSN_FRONT}
@@ -135,7 +135,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "bundle exec sidekiqmon | grep $(hostname) || exit 1"]
     environment:
-      - LAGO_API_URL=${LAGO_API_URL:-http://localhost:3000}
+      - LAGO_API_URL=${LAGO_API_URL:-http://lago.site:3000}
       - DATABASE_URL=postgresql://${POSTGRES_USER:-lago}:${POSTGRES_PASSWORD:-changeme}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-lago}
       - REDIS_URL=redis://${REDIS_HOST:-redis}:${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -148,7 +148,7 @@ services:
       - ENCRYPTION_PRIMARY_KEY=${LAGO_ENCRYPTION_PRIMARY_KEY:-your-encryption-primary-key}
       - ENCRYPTION_DETERMINISTIC_KEY=${LAGO_ENCRYPTION_DETERMINISTIC_KEY:-your-encryption-deterministic-key}
       - ENCRYPTION_KEY_DERIVATION_SALT=${LAGO_ENCRYPTION_KEY_DERIVATION_SALT:-your-encryption-derivation-salt}
-      - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://localhost}
+      - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://lago.site}
       - LAGO_USE_AWS_S3=${LAGO_USE_AWS_S3:-false}
       - LAGO_AWS_S3_ACCESS_KEY_ID=${LAGO_AWS_S3_ACCESS_KEY_ID:-azerty123456}
       - LAGO_AWS_S3_SECRET_ACCESS_KEY=${LAGO_AWS_S3_SECRET_ACCESS_KEY:-azerty123456}
@@ -177,7 +177,7 @@ services:
   #      condition: service_healthy
   #  command: ["./scripts/start.events.worker.sh"]
   #  environment:
-  #    - LAGO_API_URL=${LAGO_API_URL:-http://localhost:3000}
+  #    - LAGO_API_URL=${LAGO_API_URL:-http://lago.site:3000}
   #    - DATABASE_URL=postgresql://${POSTGRES_USER:-lago}:${POSTGRES_PASSWORD:-changeme}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-lago}
   #    - REDIS_URL=redis://${REDIS_HOST:-redis}:${REDIS_PORT:-6379}
   #    - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -190,7 +190,7 @@ services:
   #    - ENCRYPTION_PRIMARY_KEY=${LAGO_ENCRYPTION_PRIMARY_KEY:-your-encryption-primary-key}
   #    - ENCRYPTION_DETERMINISTIC_KEY=${LAGO_ENCRYPTION_DETERMINISTIC_KEY:-your-encryption-deterministic-key}
   #    - ENCRYPTION_KEY_DERIVATION_SALT=${LAGO_ENCRYPTION_KEY_DERIVATION_SALT:-your-encryption-derivation-salt}
-  #    - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://localhost}
+  #    - LAGO_FRONT_URL=${LAGO_FRONT_URL:-http://lago.site}
   #    - LAGO_USE_AWS_S3=${LAGO_USE_AWS_S3:-false}
   #    - LAGO_AWS_S3_ACCESS_KEY_ID=${LAGO_AWS_S3_ACCESS_KEY_ID:-azerty123456}
   #    - LAGO_AWS_S3_SECRET_ACCESS_KEY=${LAGO_AWS_S3_SECRET_ACCESS_KEY:-azerty123456}
@@ -215,7 +215,7 @@ services:
         condition: service_healthy
     command: ["./scripts/start.clock.sh"]
     environment:
-      - LAGO_API_URL=${LAGO_API_URL:-http://localhost:3000}
+      - LAGO_API_URL=${LAGO_API_URL:-http://lago.site:3000}
       - DATABASE_URL=postgresql://${POSTGRES_USER:-lago}:${POSTGRES_PASSWORD:-changeme}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-lago}
       - REDIS_URL=redis://${REDIS_HOST:-redis}:${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
